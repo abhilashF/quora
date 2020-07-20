@@ -1,6 +1,7 @@
 package com.upgrad.quora.service.business;
 
 import com.upgrad.quora.service.dao.UserDao;
+import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
@@ -22,7 +23,7 @@ public class AdminService {
     private PasswordCryptographyProvider CryptographyProvider;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserAuthTokenEntity authenticate(final String username, final String password) throws AuthenticationFailedException {
+    public UserAuthTokenEntity authenticate( final String password) throws AuthenticationFailedException {
         UserEntity userEntity = userDao.getUserByUsername;
         if (userEntity == null) {
             throw new AuthenticationFailedException("ATH-001", "This username does not exist");
@@ -48,5 +49,11 @@ public class AdminService {
         } else {
             throw new AuthenticationFailedException("ATH-002", "Password failed");
         }
+    }
+
+    public UserEntity deleteUser(Integer user_id) {
+        userDao.deleteUser(user_id);
+
+        return null;
     }
 }

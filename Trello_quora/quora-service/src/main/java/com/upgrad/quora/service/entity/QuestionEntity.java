@@ -3,7 +3,7 @@ package com.upgrad.quora.service.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
+//@Entity annotation specifies that the corresponding class is a JPA entity
 @Entity
 @Table(name = "QUESTIONS", schema = "quora")
 @NamedQueries({
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
         @NamedQuery(name = "QuestionEntityByid", query = "select i from QuestionEntity i where i.id = :id")
 })
 public class QuestionEntity {
-
+    //@Id annotation specifies that the corresponding attribute is a primary key
         @Id
         @Column(name = "ID")
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class QuestionEntity {
 
 
         @JoinColumn(name = "USER_ID")
-        private int user_id;
+        private Integer user_id;
 
     public long getId() {
         return id;
@@ -65,11 +65,11 @@ public class QuestionEntity {
         this.date = date;
     }
 
-    public int getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 }

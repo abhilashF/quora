@@ -1,44 +1,54 @@
 package com.upgrad.quora.api.controller;
 
-import com.upgrad.quora.service.dao.UserDao;
+
+import com.upgrad.quora.api.model.UserDeleteResponse;
+import com.upgrad.quora.service.business.AdminService;
+import com.upgrad.quora.service.business.UserService;
+
+
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
+import com.upgrad.quora.service.exception.AuthenticationFailedException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/")
 public class AdminController {
 
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
+    @Autowired
+    private AdminService adminService;
+    //This controller method is called when the request pattern is of type '/admin/user/{userId}'
 
-    private UserEntity userEntity;
-    @RequestMapping(value = "/deleteImage", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/admin/user/{userId}", method = RequestMethod.DELETE)
 
-    public UserEntity userDelete(final UserEntity userEntity, @PathVariable("userId") final String id, String uuid, final String authorization) throws AuthorizationFailedException {
-        UserAuthTokenEntity userAuthTokenEntity = userDao.getAuthtoken(authorization);
+    public ResponseEntity<UserDeleteResponse> userDelete(final UserEntity userEntity, @PathVariable("userId") final Integer id, String uuid) throws AuthorizationFailedException, AuthenticationFailedException {
+        UserAuthTokenEntity userAuthTokenEntity = adminService.authenticate(uuid);
         if (userAuthTokenEntity == null) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
 
-        if (userDao.getUserById((id))!=userEntity){
+        if (userService.getUserById((uuid))!=userEntity){
             throw new AuthorizationFailedException ("ATHR-002","User is signed out");
         }
 
         String role = userEntity.getRole();
 
-        if (role !=("admin")) {
+        if (!role.equals("admin")) {
 
             throw new AuthorizationFailedException("ATHR-003", "Unauthorized Access, Entered user is not an admin");
 
         }
-            UserEntity existinguserEntity = userDao.getUserById(uuid);
+            UserEntity existinguserEntity = userService.getUserById(uuid);
 
 
             if (existinguserEntity == null) {
@@ -47,10 +57,11 @@ public class AdminController {
 
 
         else {
+                adminService.deleteUser(id);
+                final UserEntity deletedUser = adminService.deleteUser(id);
+                UserDeleteResponse deleteResponse = new UserDeleteResponse().id(deletedUser.getUuid()).status("USER SUCCESSFULLY DELETED'");
 
-
-             ResponseEntity.status(HttpStatus.valueOf("DELETE"));
-                    return userDao.getUserById(uuid);
+                    return new ResponseEntity<UserDeleteResponse>(deleteResponse, HttpStatus.NO_CONTENT);
 
 
         }

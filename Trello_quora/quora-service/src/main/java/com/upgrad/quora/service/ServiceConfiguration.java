@@ -12,4 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.upgrad.quora.service")
 @EntityScan("com.upgrad.quora.service.entity")
 public class ServiceConfiguration {
+
+    public ServiceConfiguration() {
+    }
 }

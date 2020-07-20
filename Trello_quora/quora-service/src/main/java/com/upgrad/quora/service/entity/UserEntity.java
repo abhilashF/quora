@@ -7,14 +7,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-@Repository
+
+//@Entity annotation specifies that the corresponding class is a JPA entity
 @Entity
 @Table(name = "USERS", schema = "quora")
 @NamedQueries({
         @NamedQuery(name = "userByUuid", query = "select u from UserEntity u where u.uuid = :uuid")
 })
 public class UserEntity  {
-
+    //@Id annotation specifies that the corresponding attribute is a primary key
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
