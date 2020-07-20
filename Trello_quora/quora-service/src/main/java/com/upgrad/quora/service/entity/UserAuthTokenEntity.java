@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
+//@Entity annotation specifies that the corresponding class is a JPA entity
 @Entity
 @Table(name = "USER_AUTH_TOKENS", schema = "quora")
 @NamedQueries({
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 })
 
 public class UserAuthTokenEntity {
-
+    //@Id annotation specifies that the corresponding attribute is a primary key
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class UserAuthTokenEntity {
 
 
     @JoinColumn(name = "USER_ID")
-    private int user_id;
+    private Integer user_id;
 
     @Column(name = "ACCESS_TOKEN")
     @NotNull
@@ -66,11 +66,11 @@ public class UserAuthTokenEntity {
         this.accessToken = accessToken;
     }
 
-    public int getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 

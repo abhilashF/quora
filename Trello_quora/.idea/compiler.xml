@@ -8,9 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="quora-db" />
         <module name="quora-service" />
-        <module name="quora-api" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Trello_quora" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

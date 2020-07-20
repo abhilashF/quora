@@ -3,15 +3,17 @@ package com.upgrad.quora.service.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
+//@Entity annotation specifies that the corresponding class is a JPA entity
 @Entity
+//@Table annotation provides more options to customize the mapping.
+//Here the name of the table to be created in the database is explicitly mentioned as 'Answers'. Hence the table named 'ANSWERS' will be created in the database with all the columns mapped to all the attributes in 'ANSWER' class
 @Table(name = "ANSWERS", schema = "quora")
 @NamedQueries({
         @NamedQuery(name = "AnswerEntityByUuid", query = "select i from AnswerEntity i where i.uuid = :uuid"),
         @NamedQuery(name = "AnswerEntityByid", query = "select i from AnswerEntity i where i.id = :id")
 })
 public class AnswerEntity {
-
+    //@Id annotation specifies that the corresponding attribute is a primary key
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
