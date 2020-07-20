@@ -26,9 +26,8 @@ public class AnswerService {
     }
 
     //The method calls the editAnswerContent() method in the Repository and passes the Content of the answer to be updated in the database
-    public AnswerEntity editAnswerContent (AnswerEntity editedAnswer){
+    public void editAnswerContent (AnswerEntity editedAnswer){
         answerDao.editAnswerContent(editedAnswer);
-        return editedAnswer;
     }
 
 

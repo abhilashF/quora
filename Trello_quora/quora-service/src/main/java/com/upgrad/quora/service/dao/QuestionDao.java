@@ -10,8 +10,6 @@ public class QuestionDao {
     //Get an instance of EntityManagerFactory from persistence unit with name as 'quora'
     @PersistenceUnit(unitName = "quora")
     private EntityManagerFactory emf;
-    private  EntityManager entityManager = emf.createEntityManager();
-    EntityTransaction transaction = entityManager.getTransaction();
 
     //The method receives the question object to be persisted in the database
     //Creates an instance of EntityManager
@@ -20,6 +18,9 @@ public class QuestionDao {
     //The transaction is rolled back in case of unsuccessful transaction
 
     public QuestionEntity createQuestion(QuestionEntity questionEntity) {
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
         try {
             transaction.begin();
         entityManager.persist(questionEntity);
@@ -36,6 +37,8 @@ public class QuestionDao {
     //Returns the list of all the questions fetched from the database
 
     public List<QuestionEntity> getAllQuestions() {
+          EntityManager entityManager = emf.createEntityManager();
+
         try {
 
         TypedQuery<QuestionEntity> query = entityManager.createQuery("SELECT i from QuestionEntity i", QuestionEntity.class);
@@ -53,6 +56,8 @@ public class QuestionDao {
 
 
     public void editQuestionContent(QuestionEntity editedQuestion){
+          EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
@@ -73,6 +78,8 @@ public class QuestionDao {
     //The transaction is rolled back in case of unsuccessful transaction
 
     public void deleteQuestion(Integer user_id) {
+          EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             transaction.begin();
@@ -89,6 +96,8 @@ public class QuestionDao {
     //Returns the answer in case the questons is found in the database
     //Returns null if no answer is found in the database
     public List<QuestionEntity>getAllQuestionByUser (Integer userId) {
+        EntityManager entityManager = emf.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
 
         try {
             TypedQuery<QuestionEntity> typedQuery = entityManager.createQuery("SELECT i from QuestionEntity i where i.id =:id", QuestionEntity.class).setParameter("id", userId);
